@@ -47,20 +47,25 @@ var mongoClient = new MongoClient(mongoSetting);
 
 {
     var services = builder.Services;
+
     // KLGLib env
     services.AddSingleton(appConfig);
-
-    // MongoDB
-    services.AddSingleton<IMongoClient>(mongoClient);
 
     // KLGLib
     services.AddSingleton(logging);
     services.AddSingleton<IEventHelper>(eventHelper);
 
-    // Sold Out
+    // MongoDB
+    services.AddSingleton<IMongoClient>(mongoClient);
+
+    // RabbitMQ
     services.AddSingleton<IRabbitMqService, RabbitMQService>();
+
+    // Sold Out
     services.AddSingleton<ISoldOutRepository, SoldOutRepository>();
     services.AddSingleton<ISoldOutBusiness, SoldOutBusiness>();
+
+    // Activity Consumer 
     services.AddHostedService<ActivityConsumer>();
 }
 
