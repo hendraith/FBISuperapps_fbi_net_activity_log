@@ -24,11 +24,6 @@ namespace ActivityLog.Business.SoldOut
                 throw new Exception("invalid parameter sku");
             };
 
-            if (string.IsNullOrEmpty(data.Platform))
-            {
-                throw new Exception("invalid parameter platform");
-            };
-
             if (string.IsNullOrEmpty(data.CreatedBy))
             {
                 throw new Exception("invalid parameter created by");
