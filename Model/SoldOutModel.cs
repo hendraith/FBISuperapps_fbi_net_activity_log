@@ -28,6 +28,10 @@ namespace ActivityLog.Model
         [JsonProperty("value")]
         public bool Value { get; set; }
 
+        [BsonElement("is_global")]
+        [JsonProperty("is_global")]
+        public bool IsGlobal { get; set; }
+
         [BsonElement("created_at")]
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
