@@ -24,7 +24,7 @@ namespace ActivityLog.Util
                 UserName = _appConfig.rabbit_url.user_name,
                 Password = _appConfig.rabbit_url.password,
                 HostName = _appConfig.rabbit_url.host,
-                Port = 5672,
+                Port = Int32.Parse(_appConfig.rabbit_url.port),
             };
 
             connection.DispatchConsumersAsync = true;
