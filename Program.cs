@@ -23,7 +23,7 @@ var appConfig = await ConfigHelper.loadConfigFromServerByEnv<AppConfig>("ACCESS_
 //Rabbit MQ
 var eventHelper = new EventHelper(appConfig.rabbit_url.getRabbitMQUri(), appConfig.rabbit_EventBus, appConfig.rabbit_eventQueueName, appConfig.AppName + "_" + appConfig.ModuleName);
 
-builder.Services.AddHostedService<EventHelper>((e) =>
+builder.Services.AddHostedService((e) =>
 {
     return eventHelper;
 });
