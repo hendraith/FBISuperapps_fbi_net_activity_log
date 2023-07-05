@@ -7,6 +7,7 @@ namespace ActivityLog.Config
         #region apps
         public string AppName { get; set; }
         public string ModuleName { get; set; }
+        public string API_KEY { get; set; }
         #endregion
 
         #region rabbit

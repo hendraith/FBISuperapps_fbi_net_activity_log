@@ -1,4 +1,5 @@
-﻿using ActivityLog.Model;
+﻿using ActivityLog.Dto.SoldOut;
+using ActivityLog.Model;
 using ActivityLog.Repository.SoldOut;
 
 namespace ActivityLog.Business.SoldOut
@@ -29,7 +30,23 @@ namespace ActivityLog.Business.SoldOut
                 throw new Exception("invalid parameter created by");
             };
 
-            await _soldOutRepository.New(data);
+            await _soldOutRepository.NewAsync(data);
+        }
+
+        public async Task<SoldOutResponse> GetListAsync(SoldOutParam param)
+        {
+            var data = await _soldOutRepository.GetListAsync(param);
+            var totalData = await _soldOutRepository.GetTotalDataAsync(null);
+            var totalFilteredData = await _soldOutRepository.GetTotalDataAsync(param);
+
+            return new SoldOutResponse
+            {
+                Data = data,
+                TotalData = totalData,
+                TotalFilteredData = totalFilteredData,
+                CurrentPage = param.Page,
+                LastPage = (int)Math.Ceiling((float)totalData / (float)param.Size)
+            };
         }
     }
 }

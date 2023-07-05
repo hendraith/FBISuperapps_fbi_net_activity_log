@@ -3,6 +3,7 @@ using ActivityLog.Config;
 using ActivityLog.Features.Consumer;
 using ActivityLog.Repository.SoldOut;
 using ActivityLog.Util;
+using FNBLibrary.Middlewares;
 using KLGLib.common.helpers;
 using KLGLib.common.log;
 using KLGLib.config;
@@ -21,6 +22,11 @@ var appConfig = await ConfigHelper.loadConfigFromServerByEnv<AppConfig>("ACCESS_
 
 //Rabbit MQ
 var eventHelper = new EventHelper(appConfig.rabbit_url.getRabbitMQUri(), appConfig.rabbit_EventBus, appConfig.rabbit_eventQueueName, appConfig.AppName + "_" + appConfig.ModuleName);
+
+builder.Services.AddHostedService<EventHelper>((e) =>
+{
+    return eventHelper;
+});
 
 // Logging
 IMyLog logging = new MyLog(eventHelper)
@@ -101,6 +107,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+eventHelper.startReceiving();
+
+app.UseMiddleware<HeaderKey>(appConfig.API_KEY);
+app.UseMiddleware<RequestResponseLogging>(logging, appConfig.API_KEY, new string[]{
+        "/", "/index.html", "/healthz"
+    });
 
 app.UseAuthorization();
 
