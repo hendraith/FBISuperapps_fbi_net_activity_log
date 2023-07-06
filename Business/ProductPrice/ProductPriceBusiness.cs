@@ -31,6 +31,11 @@ namespace ActivityLog.Business.ProductPrice
                 throw new Exception("invalid parameter created by");
             };
 
+            if (data.DistributionChannel == 0)
+            {
+                throw new Exception("invalid parameter distribution channel");
+            };
+
             await _productPriceRepository.NewAsync(data);
         }
 

@@ -20,13 +20,13 @@ namespace ActivityLog.Model
         [JsonProperty("sku")]
         public string SKU { get; set; }
 
-        [BsonElement("platform")]
-        [JsonProperty("platform")]
-        public string Platform { get; set; }
+        [BsonElement("distribution_channel")]
+        [JsonProperty("distribution_channel")]
+        public int DistributionChannel { get; set; }
 
         [BsonElement("value")]
         [JsonProperty("value")]
-        public bool Value { get; set; }
+        public double Value { get; set; }
 
         [BsonElement("created_at")]
         [JsonProperty("created_at")]
