@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace ActivityLog.Features.SoldOut.Controller
 {
-    [Route("sold_out")]
+    [Route("sold-out")]
     [ApiController]
     public class SoldOut : ControllerBase
     {
