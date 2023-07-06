@@ -59,8 +59,9 @@ namespace ActivityLog.Repository.SoldOut
             var filterSku = param.Sku == "" ? Builders<SoldOutModel>.Filter.Empty : Builders<SoldOutModel>.Filter.Eq(q => q.SKU, param.Sku);
             var filterStartAt = Builders<SoldOutModel>.Filter.Gte(q => q.CreatedAt, param.StartDate);
             var filterEndAt = Builders<SoldOutModel>.Filter.Lte(q => q.CreatedAt, param.EndDate);
+            var filterGlobal = param.IsGlobal == null ? Builders<SoldOutModel>.Filter.Empty : Builders<SoldOutModel>.Filter.Eq(q => q.IsGlobal, param.IsGlobal);
 
-            return Builders<SoldOutModel>.Filter.And(filterSiteCode, filterSku, filterStartAt, filterEndAt);
+            return Builders<SoldOutModel>.Filter.And(filterSiteCode, filterSku, filterStartAt, filterEndAt, filterGlobal);
         }
     }
 }

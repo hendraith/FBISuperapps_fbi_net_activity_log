@@ -1,10 +1,11 @@
 ﻿using ActivityLog.Model;
 using Newtonsoft.Json;
 
-namespace ActivityLog.Dto.SoldOut
+namespace ActivityLog.Dto.ProductPrice
 {
-    public class SoldOutResponse
+    public class ProductPriceResponse
     {
+
         [JsonProperty("total_data")]
         public long TotalData { get; set; }
 
@@ -18,6 +19,6 @@ namespace ActivityLog.Dto.SoldOut
         public int LastPage { get; set; }
 
         [JsonProperty("data")]
-        public List<SoldOutModel> Data { get; set; }
+        public List<ProductPriceModel> Data { get; set; }
     }
 }

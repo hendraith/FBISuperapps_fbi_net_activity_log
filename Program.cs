@@ -1,6 +1,8 @@
+using ActivityLog.Business.ProductPrice;
 using ActivityLog.Business.SoldOut;
 using ActivityLog.Config;
 using ActivityLog.Features.Consumer;
+using ActivityLog.Repository.ProductPrice;
 using ActivityLog.Repository.SoldOut;
 using ActivityLog.Util;
 using FNBLibrary.Middlewares;
@@ -70,6 +72,10 @@ var mongoClient = new MongoClient(mongoSetting);
     // Sold Out
     services.AddSingleton<ISoldOutRepository, SoldOutRepository>();
     services.AddSingleton<ISoldOutBusiness, SoldOutBusiness>();
+    
+    // Product Price
+    services.AddSingleton<IProductPriceRepository, ProductPriceRepository>();
+    services.AddSingleton<IProductPriceBusiness, ProductPriceBusiness>();
 
     // Activity Consumer 
     services.AddHostedService<ActivityConsumer>();

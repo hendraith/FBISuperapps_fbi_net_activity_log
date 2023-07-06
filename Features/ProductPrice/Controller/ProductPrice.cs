@@ -1,19 +1,19 @@
-﻿using ActivityLog.Business.SoldOut;
+﻿using ActivityLog.Business.ProductPrice;
 using FNBLibrary.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace ActivityLog.Features.SoldOut.Controller
+namespace ActivityLog.Features.ProductPrice.Controller
 {
-    [Route("sold-out")]
+    [Route("product-price")]
     [ApiController]
-    public class SoldOut : ControllerBase
+    public class ProductPrice : ControllerBase
     {
-        private readonly ISoldOutBusiness _soldOutBusiness;
+        private readonly IProductPriceBusiness _productPriceBusiness;
 
-        public SoldOut(ISoldOutBusiness soldOutBusiness)
+        public ProductPrice(IProductPriceBusiness productPriceBusiness)
         {
-            _soldOutBusiness = soldOutBusiness;
+            _productPriceBusiness = productPriceBusiness;
         }
 
         [HttpGet]
@@ -28,8 +28,6 @@ namespace ActivityLog.Features.SoldOut.Controller
             string sku = "";
             int size = 5;
             int page = 1;
-            bool isGlobal;
-            bool? isGlobalParam = null;
 
             if (HttpContext.Request.QueryString.HasValue)
             {
@@ -50,26 +48,19 @@ namespace ActivityLog.Features.SoldOut.Controller
 
                 if (HttpContext.Request.Query.ContainsKey("pageSize"))
                     int.TryParse(HttpContext.Request.Query["pageSize"].ToString(), out size);
-
-                if (HttpContext.Request.Query.ContainsKey("isGlobal"))
-                {
-                    bool.TryParse(HttpContext.Request.Query["isGlobal"].ToString(), out isGlobal);
-                    isGlobalParam = isGlobal;
-                }
             }
 
-            var param = new Dto.SoldOut.SoldOutParam
+            var param = new Dto.ProductPrice.ProductPriceParam
             {
                 StartDate = startDate,
                 EndDate = endDate,
                 SiteCode = siteCode,
                 Sku = sku,
                 Page = page,
-                Size = size,
-                IsGlobal = isGlobalParam,
+                Size = size
             };
 
-            var result = await _soldOutBusiness.GetListAsync(param);
+            var result = await _productPriceBusiness.GetListAsync(param);
             var response = JsonConvert.SerializeObject(result);
 
             return Ok(response);

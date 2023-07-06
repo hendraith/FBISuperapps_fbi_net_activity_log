@@ -1,4 +1,5 @@
-﻿using ActivityLog.Business.SoldOut;
+﻿using ActivityLog.Business.ProductPrice;
+using ActivityLog.Business.SoldOut;
 using ActivityLog.Model;
 using ActivityLog.Util;
 using Newtonsoft.Json;
@@ -11,24 +12,28 @@ namespace ActivityLog.Features.Consumer
 {
     public class ActivityConsumer : IHostedService
     {
-        private readonly string SoldOutQueue = "activity_log";
+        private readonly string QueueName = "activity_log";
         private readonly IModel _model;
         private readonly IConnection _connection;
         private readonly ISoldOutBusiness _soldOutBusiness;
+        private readonly IProductPriceBusiness _productPriceBusiness;
 
         // declare consumer type 
         const string TYPE_SOLD_OUT = "sold_out";
+        const string TYPE_PRODUCT_PRICE = "product_price";
 
-        public ActivityConsumer(IRabbitMqService rabbitMqService, ISoldOutBusiness soldOutBusiness)
+        public ActivityConsumer(IRabbitMqService rabbitMqService, ISoldOutBusiness soldOutBusiness, IProductPriceBusiness productPriceBusiness)
         {
-            _soldOutBusiness = soldOutBusiness;
             _connection = rabbitMqService.CreateChannel();
             _model = _connection.CreateModel();
+
+            _soldOutBusiness = soldOutBusiness;
+            _productPriceBusiness = productPriceBusiness;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _model.QueueDeclare(queue: SoldOutQueue,
+            _model.QueueDeclare(queue: QueueName,
                                  durable: true,
                                  exclusive: false,
                                  autoDelete: false,
@@ -64,8 +69,12 @@ namespace ActivityLog.Features.Consumer
                     switch (type)
                     {
                         case TYPE_SOLD_OUT:
-                            var data = JsonConvert.DeserializeObject<SoldOutModel>(payload);
-                            await _soldOutBusiness.New(data);
+                            var soldOut = JsonConvert.DeserializeObject<SoldOutModel>(payload);
+                            await _soldOutBusiness.New(soldOut);
+                            break;
+                        case TYPE_PRODUCT_PRICE:
+                            var productPrice = JsonConvert.DeserializeObject<ProductPriceModel>(payload);
+                            await _productPriceBusiness.New(productPrice);
                             break;
                         default:
                             Console.WriteLine(type + " is not implemented");
@@ -83,7 +92,7 @@ namespace ActivityLog.Features.Consumer
             };
 
             _model.BasicConsume(
-                queue: SoldOutQueue,
+                queue: QueueName,
                 autoAck: false,
                 consumer: consumer);
         }
