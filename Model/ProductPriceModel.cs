@@ -24,6 +24,10 @@ namespace ActivityLog.Model
         [JsonProperty("distribution_channel")]
         public int DistributionChannel { get; set; }
 
+        [BsonElement("before")]
+        [JsonProperty("before")]
+        public double Before { get; set; }
+        
         [BsonElement("after")]
         [JsonProperty("after")]
         public double After { get; set; }
