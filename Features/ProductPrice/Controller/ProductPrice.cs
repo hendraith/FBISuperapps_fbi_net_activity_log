@@ -24,8 +24,7 @@ namespace ActivityLog.Features.ProductPrice.Controller
             DateTime startDate = DateTime.UtcNow.AddHours(7).Date;
             DateTime endDate = DateTime.UtcNow.AddDays(1).AddHours(7).Date;
 
-            string siteCode = "";
-            string sku = "";
+            string search = "";
             int size = 5;
             int page = 1;
 
@@ -37,11 +36,8 @@ namespace ActivityLog.Features.ProductPrice.Controller
                 if (HttpContext.Request.Query.ContainsKey("endDate"))
                     DateTime.TryParse(HttpContext.Request.Query["endDate"].ToString(), out endDate);
 
-                if (HttpContext.Request.Query.ContainsKey("siteCode"))
-                    siteCode = HttpContext.Request.Query["siteCode"].ToString();
-
-                if (HttpContext.Request.Query.ContainsKey("sku"))
-                    sku = HttpContext.Request.Query["sku"].ToString();
+                if (HttpContext.Request.Query.ContainsKey("search"))
+                    search = HttpContext.Request.Query["search"].ToString();
 
                 if (HttpContext.Request.Query.ContainsKey("page"))
                     int.TryParse(HttpContext.Request.Query["page"].ToString(), out page);
@@ -54,8 +50,7 @@ namespace ActivityLog.Features.ProductPrice.Controller
             {
                 StartDate = startDate,
                 EndDate = endDate,
-                SiteCode = siteCode,
-                Sku = sku,
+                Search = search,
                 Page = page,
                 Size = size
             };

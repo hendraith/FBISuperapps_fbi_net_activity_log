@@ -56,12 +56,14 @@ namespace ActivityLog.Repository.ProductPrice
 
         private FilterDefinition<ProductPriceModel> GenerateFilter(ProductPriceParam param)
         {
-            var filterSiteCode = param.SiteCode == "" ? Builders<ProductPriceModel>.Filter.Empty : Builders<ProductPriceModel>.Filter.Eq(q => q.SiteCode, param.SiteCode);
-            var filterSku = param.Sku == "" ? Builders<ProductPriceModel>.Filter.Empty : Builders<ProductPriceModel>.Filter.Eq(q => q.SKU, param.Sku);
+            var filterSiteCode = param.Search == "" ? Builders<ProductPriceModel>.Filter.Empty : Builders<ProductPriceModel>.Filter.Eq(q => q.SiteCode, param.Search);
+            var filterSku = param.Search == "" ? Builders<ProductPriceModel>.Filter.Empty : Builders<ProductPriceModel>.Filter.Eq(q => q.SKU, param.Search);
+            var filterSearch = Builders<ProductPriceModel>.Filter.Or(filterSiteCode, filterSku);
+
             var filterStartAt = Builders<ProductPriceModel>.Filter.Gte(q => q.CreatedAt, param.StartDate);
             var filterEndAt = Builders<ProductPriceModel>.Filter.Lte(q => q.CreatedAt, param.EndDate);
 
-            return Builders<ProductPriceModel>.Filter.And(filterSiteCode, filterSku, filterStartAt, filterEndAt);
+            return Builders<ProductPriceModel>.Filter.And(filterSearch, filterStartAt, filterEndAt);
         }
     }
 }
