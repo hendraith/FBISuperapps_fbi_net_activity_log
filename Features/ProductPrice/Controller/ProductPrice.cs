@@ -42,8 +42,8 @@ namespace ActivityLog.Features.ProductPrice.Controller
                 if (HttpContext.Request.Query.ContainsKey("page"))
                     int.TryParse(HttpContext.Request.Query["page"].ToString(), out page);
 
-                if (HttpContext.Request.Query.ContainsKey("pageSize"))
-                    int.TryParse(HttpContext.Request.Query["pageSize"].ToString(), out size);
+                if (HttpContext.Request.Query.ContainsKey("size"))
+                    int.TryParse(HttpContext.Request.Query["size"].ToString(), out size);
             }
 
             var param = new Dto.ProductPrice.ProductPriceParam
