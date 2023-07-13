@@ -51,7 +51,7 @@ namespace ActivityLog.Business.ProductPrice
                 TotalData = totalData,
                 TotalFilteredData = totalFilteredData,
                 CurrentPage = param.Page,
-                LastPage = (int)Math.Ceiling((float)totalData / (float)param.Size)
+                LastPage = (int)Math.Ceiling((float)totalFilteredData / (float)param.Size)
             };
         }
     }
