@@ -1,5 +1,4 @@
 ﻿using ActivityLog.Dto.ProductPrice;
-using ActivityLog.Dto.SoldOut;
 using ActivityLog.Model;
 using ActivityLog.Repository.ProductPrice;
 
