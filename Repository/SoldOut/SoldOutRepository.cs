@@ -34,6 +34,7 @@ namespace ActivityLog.Repository.SoldOut
             var filter = GenerateFilter(param);
 
             var result = await _collection.Find(filter)
+                .SortByDescending(q => q.CreatedAt)
                 .Limit(param.Size)
                 .Skip((param.Page - 1) * param.Size)
                 .ToListAsync();
