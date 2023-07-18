@@ -56,13 +56,15 @@ namespace ActivityLog.Repository.SoldOut
 
         private FilterDefinition<SoldOutModel> GenerateFilter(SoldOutParam param)
         {
-            var filterSiteCode = param.SiteCode == "" ? Builders<SoldOutModel>.Filter.Empty : Builders<SoldOutModel>.Filter.Eq(q => q.SiteCode, param.SiteCode);
-            var filterSku = param.Sku == "" ? Builders<SoldOutModel>.Filter.Empty : Builders<SoldOutModel>.Filter.Eq(q => q.SKU, param.Sku);
+            var filterSiteCode = param.Search == "" ? Builders<SoldOutModel>.Filter.Empty : Builders<SoldOutModel>.Filter.Eq(q => q.SiteCode, param.Search);
+            var filterSku = param.Search == "" ? Builders<SoldOutModel>.Filter.Empty : Builders<SoldOutModel>.Filter.Eq(q => q.SKU, param.Search);
+            var filterSearch = Builders<SoldOutModel>.Filter.Or(filterSiteCode, filterSku);
+
             var filterStartAt = Builders<SoldOutModel>.Filter.Gte(q => q.CreatedAt, param.StartDate);
             var filterEndAt = Builders<SoldOutModel>.Filter.Lte(q => q.CreatedAt, param.EndDate);
             var filterGlobal = param.IsGlobal == null ? Builders<SoldOutModel>.Filter.Empty : Builders<SoldOutModel>.Filter.Eq(q => q.IsGlobal, param.IsGlobal);
 
-            return Builders<SoldOutModel>.Filter.And(filterSiteCode, filterSku, filterStartAt, filterEndAt, filterGlobal);
+            return Builders<SoldOutModel>.Filter.And(filterSearch, filterStartAt, filterEndAt, filterGlobal);
         }
     }
 }
