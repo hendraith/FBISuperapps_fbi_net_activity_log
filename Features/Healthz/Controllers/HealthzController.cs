@@ -31,7 +31,7 @@ namespace ActivityLog.Features.Healthz.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("failed to ping to mongodb database: " + ex.Message);
+                Console.WriteLine("failed to ping mongodb database: " + ex.Message);
                 return HealthCheckResult.Unhealthy("MongoDB health check failure");
             }
 
