@@ -18,6 +18,11 @@ namespace ActivityLog.Config
         public string rabbit_EmailQueue { get; set; } = default!;
         #endregion
 
+        #region jwt
+        public string JWT_ISSUER { get; set; }
+        public string JWT_SECRET { get; set; }
+        #endregion
+
         public DBServer MONGO_URL { get; set; } = new DBServer { };
     }
 }

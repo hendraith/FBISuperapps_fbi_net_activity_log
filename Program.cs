@@ -6,6 +6,8 @@ using ActivityLog.Repository.ProductPrice;
 using ActivityLog.Repository.SoldOut;
 using ActivityLog.Util;
 using FNBLibrary.Middlewares;
+using FNBLibrary.Models;
+using FNBLibrary.Services;
 using KLGLib.common.helpers;
 using KLGLib.common.log;
 using KLGLib.config;
@@ -63,6 +65,9 @@ var mongoClient = new MongoClient(mongoSetting);
     services.AddSingleton(logging);
     services.AddSingleton<IEventHelper>(eventHelper);
 
+    services.AddSingleton<IVerify>(x =>
+        new Verify(appConfig.JWT_ISSUER, appConfig.JWT_SECRET));
+
     // MongoDB
     services.AddSingleton<IMongoClient>(mongoClient);
 
@@ -116,8 +121,7 @@ app.UseHttpsRedirection();
 
 eventHelper.startReceiving();
 
-app.UseMiddleware<HeaderKey>(appConfig.API_KEY);
-app.UseMiddleware<RequestResponseLogging>(logging, appConfig.API_KEY, new string[]{
+app.UseMiddleware<RequestResponseLogging<JWTModel>>(logging, appConfig.JWT_SECRET, appConfig.API_KEY, new string[]{
         "/", "/index.html", "/healthz"
     });
 

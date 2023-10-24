@@ -1,5 +1,5 @@
 ﻿using ActivityLog.Business.ProductPrice;
-using FNBLibrary.Attributes;
+using FNBLibrary.AuthAttribute;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -17,9 +17,8 @@ namespace ActivityLog.Features.ProductPrice.Controller
         }
 
         [HttpGet]
-        [AuthorizeHeaderKey]
-        public async Task<ActionResult> GetListAsync(
-            [FromHeader(Name = "x-api-key")] string apiKey)
+        [Authorize("CMS")]
+        public async Task<ActionResult> GetListAsync()
         {
             DateTime startDate = DateTime.UtcNow.AddHours(7).Date;
             DateTime endDate = DateTime.UtcNow.AddDays(1).AddHours(7).Date;

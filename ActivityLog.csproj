@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FNBLibrary" Version="1.0.18" />
+    <PackageReference Include="FNBLibrary" Version="1.0.26" />
     <PackageReference Include="KLGLib" Version="1.3.17" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
