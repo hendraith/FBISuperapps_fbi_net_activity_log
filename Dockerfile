@@ -28,5 +28,13 @@ RUN apt-get update
 
 RUN apt-get install curl -y
 
+RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
+&& echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list \
+&& wget https://download.newrelic.com/548C16BF.gpg \
+&& apt-key add 548C16BF.gpg \
+&& apt-get update \
+&& apt-get install -y 'newrelic-dotnet-agent' \
+&& rm -rf /var/lib/apt/lists/*
+
 ENTRYPOINT ["dotnet", "ActivityLog.dll"]	
 
